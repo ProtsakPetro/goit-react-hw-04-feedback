@@ -25,10 +25,10 @@ const App = () => {
     return Math.round(percentage) + "%";
   };
 
-  const handleFeedback = (buttonName) => {
+  const handleFeedback = (option) => {
     setFeedback((prevFeedback) => ({
       ...prevFeedback,
-      [buttonName]: prevFeedback[buttonName] + 1
+      [option]: prevFeedback[option] + 1
     }));
   };
 

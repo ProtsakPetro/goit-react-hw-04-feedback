@@ -2,8 +2,9 @@ import styled from 'styled-components';
 
 export const FeedbackList = styled.ul`
     display: flex;
-   gap: 20px;
+   gap: 25px;
    padding-top: 15PX;
+   margin-left: 15px;
 `
 
 export const FeedbackBtn = styled.button`
