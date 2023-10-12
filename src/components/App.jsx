@@ -13,14 +13,12 @@ const App = () => {
   });
 
   const countTotalFeedback = () => {
-    const { like, neutral, dislike } = feedback;
-    const feedbackValues = Object.values(feedback);
+       const feedbackValues = Object.values(feedback);
     return feedbackValues.reduce((total, value) => total + value, 0);
   };
 
   const countPositiveFeedbackPercentage = () => {
-    const { like } = feedback;
-    const total = countTotalFeedback();
+       const total = countTotalFeedback();
     const percentage = total === 0 ? 0 : (like / total) * 100;
     return Math.round(percentage) + "%";
   };
