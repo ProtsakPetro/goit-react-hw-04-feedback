@@ -1,64 +1,63 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import FeedbackOptions from "./FeedbackOptions/FeedbackOptions";
 import Section from "./Section/Section";
 import Statistics from "./Statistics/Statistics";
 import { Container } from "./index.styled";
 import Notification from "./Notification/Notification";
 
-class App extends Component {
-  state = {
+const App = () => {
+  const [feedback, setFeedback] = useState({
     like: 0,
     neutral: 0,
     dislike: 0
-  };
+  });
 
-  countTotalFeedback = () => {
-    const { like, neutral, dislike } = this.state;
-    const feedbackValues = Object.values({ like, neutral, dislike });
+  const countTotalFeedback = () => {
+    const { like, neutral, dislike } = feedback;
+    const feedbackValues = Object.values(feedback);
     return feedbackValues.reduce((total, value) => total + value, 0);
   };
 
-  countPositiveFeedbackPercentage = () => {
-    const { like } = this.state;
-    const total = this.countTotalFeedback();
+  const countPositiveFeedbackPercentage = () => {
+    const { like } = feedback;
+    const total = countTotalFeedback();
     const percentage = total === 0 ? 0 : (like / total) * 100;
     return Math.round(percentage) + "%";
   };
 
-  handleFeedback = (e) => {
-    const buttonName = e.target.textContent;
-    this.setState((prevState) => ({
-      [buttonName.toLowerCase()]: prevState[buttonName.toLowerCase()] + 1
+  const handleFeedback = (buttonName) => {
+    setFeedback((prevFeedback) => ({
+      ...prevFeedback,
+      [buttonName]: prevFeedback[buttonName] + 1
     }));
   };
 
-  render() {
-    const { like, neutral, dislike } = this.state;
-    const total = this.countTotalFeedback(); 
-    return (
-      <Container>
-        <Section title="SHARE YOUR EXPERIENCES">
-          <FeedbackOptions
-            options={Object.keys(this.state)}
-            onLeaveFeedback={this.handleFeedback}
+  const { like, neutral, dislike } = feedback;
+  const total = countTotalFeedback();
+
+  return (
+    <Container>
+      <Section title="SHARE YOUR EXPERIENCES">
+        <FeedbackOptions
+          options={Object.keys(feedback)}
+          onLeaveFeedback={handleFeedback}
+        />
+      </Section>
+      <Section title="STATISTIC">
+        {total > 0 ? (
+          <Statistics
+            good={like}
+            neutral={neutral}
+            bad={dislike}
+            total={total}
+            positivePercentage={countPositiveFeedbackPercentage()}
           />
-        </Section>
-        <Section title="STATISTIC">
-          {total > 0 ? (
-            <Statistics
-              good={like}
-              neutral={neutral}
-              bad={dislike}
-              total={total} 
-              positivePercentage={this.countPositiveFeedbackPercentage()}
-            />
-          ) : (
-            <Notification message="THERE IS NO FEEDBACK" />
-          )}
-        </Section>
-      </Container>
-    );
-  }
-}
+        ) : (
+          <Notification message="THERE IS NO FEEDBACK" />
+        )}
+      </Section>
+    </Container>
+  );
+};
 
 export default App;

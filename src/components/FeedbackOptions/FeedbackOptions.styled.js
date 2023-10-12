@@ -4,10 +4,6 @@ export const FeedbackList = styled.ul`
     display: flex;
    gap: 20px;
    padding-top: 15PX;
-   
-   
-
-    
 `
 
 export const FeedbackBtn = styled.button`
